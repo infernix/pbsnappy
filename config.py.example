@@ -1,0 +1,24 @@
+# Log in credentials
+PB_USERNAME = 'you@yourcompany.com'
+PB_PASSWORD = 'abcdefghij'
+
+# Using the below configuration you can arbitrarely choose a backup frequency.
+# Some examples:
+# - one snapshot a week with retention for a month, set RETENTION_DAYS = 30, MIN_SNAP_HOURS = 168 and run in cron once a week
+# - one snapshot a day with retention for 2 days, set RETENTION_DAYS = 3, MIN_SNAP_HOURS = 23 and run in cron daily
+# - one snapshot every 4 hours with retention for 24 hours, set RETENTION_DAYS = 1 and MIN_SNAP_HOURS to 4, then run in cron hourly or every 4 hours
+
+# How long to keep snapshots for
+RETENTION_DAYS = 2
+
+# Don't make snapshots more frequent than MIN_SNAP_HOURS, no matter how often the script is being executed
+MIN_SNAP_HOURS = 23
+
+# Pick target datacenter ID (multiple DCs NOT supported at this time)
+# Retrieve this using the Official Profitbricks CLI
+DATACENTER_ID = "abcdefg2-1234-5678-9012-zyxwvutsrqpo"
+
+# List target server names in your DC to use pbsnappy for. Must be exact matches! Does not support wildcards.
+TARGET_SERVER_NAMES = [
+    "www.mycompany.com"
+]
