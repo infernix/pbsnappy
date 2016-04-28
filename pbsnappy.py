@@ -78,18 +78,20 @@ for entity in datacenter['entities']['servers']['items']:
       if(snapname.startswith(volumename)):
 
         # We have a match on snapshot name related to this volumename
+	snapage = datetime.utcnow() - snapdate
+
         # Check if it's outdated and ready for deletion
-        if (datetime.utcnow() - snapdate) > timedelta(days=config.RETENTION_DAYS):
+        if snapage > timedelta(days=config.RETENTION_DAYS):
         
          # Too old, delete it
          client.delete_snapshot(snapshot_id=snapid)
-         print "Server '%s' snapshot '%s' deleted, older than %d retention days" % (servername, snapname, config.RETENTION_DAYS)
+         print "Server '%s' snapshot '%s' deleted, older than %d retention days (%d days, %d seconds)" % (servername, snapname, config.RETENTION_DAYS, snapage.days, snapage.seconds)
+
         else:
          # Recent, keep it
-         print "Server '%s' snapshot '%s' kept, not older than %d retention days" % (servername, snapname, config.RETENTION_DAYS)
+         print "Server '%s' snapshot '%s' kept, not older than %d retention days (%d days, %d seconds)" % (servername, snapname, config.RETENTION_DAYS, snapage.days, snapage.seconds)
          
 	 # For recent backups, check if it's less than min_snap_hours 
-	 snapage = datetime.utcnow() - snapdate
          if snapage < timedelta(hours=config.MIN_SNAP_HOURS):
 	  # Snapshot is recent, don't make a new one
           no_recent_snapshot = False
